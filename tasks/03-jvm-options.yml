@@ -4,3 +4,4 @@
     src: "jvm.options.j2"
     dest: "/etc/elasticsearch/jvm.options"
   become: true
+  notify: "Restart Elasticsearch"

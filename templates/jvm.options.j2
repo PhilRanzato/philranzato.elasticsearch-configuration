@@ -19,8 +19,8 @@
 # Xms represents the initial size of total heap space
 # Xmx represents the maximum size of total heap space
 
--Xms{{ (ansible_memory_mb.real.total / 2000) | round }}g
--Xmx{{ (ansible_memory_mb.real.total / 2000) | round }}g
+-Xms{{ (ansible_memory_mb.real.total / 2000) | round | int }}g
+-Xmx{{ (ansible_memory_mb.real.total / 2000) | round | int }}g
 
 ################################################################
 ## Expert settings
