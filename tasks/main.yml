@@ -7,3 +7,11 @@
 
 - name: "Setup passwords"
   include_tasks: "02-setup-passwords.yml"
+  when: setup_passwords
+
+- name: "Configure JVM options"
+  include_tasks: "03-jvm-options.yml"
+
+- name: "Add external disk correct permission (if any)"
+  include_tasks: "04-disk-permissions.yml"
+  when: external_disk

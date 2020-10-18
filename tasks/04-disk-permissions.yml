@@ -1,0 +1,9 @@
+---
+- name: "Template JVM options file"
+  file:
+    path: "{{ elasticsearch.dir.data }}"
+    owner: "elasticsearch"
+    group: "elasticsearch"
+    recurse: yes
+    state: directory
+  become: true

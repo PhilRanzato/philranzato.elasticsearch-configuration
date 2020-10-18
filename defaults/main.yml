@@ -1,10 +1,13 @@
 ---
+## Control variables
+setup_passwords: true
+external_disk: false
+elasticsearch_masters_group_name: elasticsearch_masters
+elasticsearch_primary_master_group_name: elasticsearch_primary_master
+
+
 ## Custom variables
 node_name: "{{ inventory_hostname | regex_replace('\\..+', '') }}"
-
-elasticsearch_masters_group_name: elasticsearch_masters
-
-elasticsearch_primary_master_group_name: elasticsearch_primary_master
 
 elasticsearch:
   dir:
