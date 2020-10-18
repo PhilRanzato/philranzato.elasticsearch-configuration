@@ -4,3 +4,7 @@
     src: "elasticsearch.yml.j2"
     dest: "/etc/elasticsearch/elasticsearch.yml"
   become: true
+  notify: "Restart Elasticsearch"
+
+- name: "Flush handlers"
+  meta: flush_handlers
