@@ -4,3 +4,4 @@
     src: "elasticsearch.yml.j2"
     dest: "/etc/elasticsearch/elasticsearch.yml"
   become: true
+  notify: "Start Elasticsearch"

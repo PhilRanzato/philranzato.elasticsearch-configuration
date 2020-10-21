@@ -1,0 +1,47 @@
+---
+- name: "Check if elasticsearch is running"
+  block:
+  - name: "Get the list of services"
+    service_facts:
+  
+  - name: "Set support variable"
+    set_fact:
+      elastic_develop_mode: false
+
+  - name: "Install jmespath dependency on the ansible master"
+    local_action:
+      module: pip
+      name: jmespath
+      state: latest
+      executable: pip3
+    become: true
+    run_once: true
+    vars:
+      ansible_python_interpreter: /usr/bin/python3
+
+  - name: "Check wheter elasticsearch is started"
+    set_fact:
+      elasticsearch_status: "{{ ansible_facts.services | json_query(query) }}"
+    vars:
+      query: '"elasticsearch.service".state'
+      ansible_python_interpreter: /usr/bin/python3
+
+- name: "Wipe out data folder to remove previous data"
+  file:
+    path: "{{ path.data }}"
+    state: absent
+  when: "elasticsearch_status == 'running'"
+  become: true
+  notify: "Stop Elasticsearch"
+
+- name: "Template JVM options file"
+  file:
+    path: "{{ elasticsearch.dir.data }}"
+    owner: "elasticsearch"
+    group: "elasticsearch"
+    recurse: yes
+    state: directory
+  become: true
+
+- name: "Flush handlers"
+  meta: flush_handlers
