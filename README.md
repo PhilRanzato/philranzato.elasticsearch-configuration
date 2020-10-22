@@ -1,38 +1,114 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+An Ansible role to configure elasticsearch
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Elasticsearch installed.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+```yaml
+---
+## Control variables
+# decide if you want to bootstrap passwords
+setup_passwords: true
+# utility variables
+elasticsearch_masters_group_name: elasticsearch_masters
+elasticsearch_primary_master_group_name: elasticsearch_primary_master
+
+
+## Custom variables
+# the node name defaults to the hostname in the inventory
+node_name: "{{ inventory_hostname | regex_replace('\\..+', '') }}"
+
+# elasticsearch directories (data, log and certificates)
+elasticsearch:
+  dir:
+    data: /var/lib/elasticsearch
+    logs: /var/log/elasticsearch
+  certificates: 
+    dir: /etc/elasticsearch
+    http_certificate:
+      name: "{{ node_name }}-http-certs.p12"
+      password: "Es-P4ssw0rd!"
+    transport_certificate:
+      name: "{{ node_name }}-transport-certs.p12"
+      password: "Es-P4ssw0rd!"
+
+## /etc/elasticsearch/elasticsearch.yml
+cluster:
+  name: "default"
+
+multiple_zones: false
+
+node:
+  name: "{{ node_name }}"
+  data: true
+  master: true
+
+path:
+  data: "{{ elasticsearch.dir.data }}"
+  logs: "{{ elasticsearch.dir.logs }}"
+
+bootstrap:
+  memory_lock: true
+
+network:
+  host: "_eth0_,_local_"
+
+http:
+  port: "9200"
+
+xpack:
+  security:
+    enabled: true
+    http:
+      ssl:
+        enabled: true
+        verification_mode: full
+        keystore:
+          path:  "{{ elasticsearch.certificates.dir }}/{{ elasticsearch.certificates.http_certificate.name }}"
+        truststore:
+          path: "{{ elasticsearch.certificates.dir }}/{{ elasticsearch.certificates.http_certificate.name }}"
+    transport:
+      ssl:
+        enabled: true
+        verification_mode: full
+        keystore:
+          path: "{{ elasticsearch.certificates.dir }}/{{ elasticsearch.certificates.transport_certificate.name }}"
+        truststore:
+          path: "{{ elasticsearch.certificates.dir }}/{{ elasticsearch.certificates.transport_certificate.name }}"
+  monitoring:
+    collection:
+      enabled: true
+```
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+---
+- name: "Configure Elasticsearch"
+  hosts: elasticsearch_masters
+  roles:
+  - { role: plrr.elasticsearch-configuration }
+```
 
 License
 -------
 
-BSD
+Apache-2
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Check me on [LinkedIn](www.linkedin.com/in/phil-ranzato-47b8bb194)
