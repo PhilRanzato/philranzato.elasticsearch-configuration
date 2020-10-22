@@ -1,0 +1,16 @@
+---
+- name: "Preflight Checks"
+  include_tasks: "00-preflight-checks.yml"
+
+- name: "Add external disk correct permission (if any)"
+  include_tasks: "01-disk-permissions.yml"
+
+- name: "Configure Elasticsearch"
+  include_tasks: "02-configure.yml"
+
+- name: "Configure JVM options"
+  include_tasks: "03-jvm-options.yml"
+
+- name: "Setup passwords"
+  include_tasks: "04-setup-passwords.yml"
+
