@@ -111,4 +111,4 @@ Apache-2
 Author Information
 ------------------
 
-Check me on [LinkedIn](www.linkedin.com/in/phil-ranzato-47b8bb194)
+Check me on [LinkedIn](https://www.linkedin.com/in/phil-ranzato-47b8bb194)
