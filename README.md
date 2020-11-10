@@ -1,4 +1,4 @@
-Role Name
+philranzato.elasticsearch-configuration
 =========
 
 An Ansible role to configure elasticsearch
@@ -106,9 +106,9 @@ Example Playbook
 License
 -------
 
-Apache-2
+MIT
 
 Author Information
 ------------------
 
-Check me on [LinkedIn](www.linkedin.com/in/phil-ranzato-47b8bb194)
+Check me on [LinkedIn](https://www.linkedin.com/in/phil-ranzato-47b8bb194)

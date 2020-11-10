@@ -2,8 +2,8 @@ galaxy_info:
   author: Phil Ranzato
   description: Configure elasticsearch
   company: KiratechCH
-  issue_tracker_url: https://github.com/PhilRanzato/pllr.elasticsearch-configuration/issues
-  license: Apache-2.0
+  issue_tracker_url: https://github.com/PhilRanzato/philranzato.elasticsearch-configuration/issues
+  license: MIT
   min_ansible_version: 2.3
   platforms:
   - name: Centos

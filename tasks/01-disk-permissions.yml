@@ -34,7 +34,7 @@
   become: true
   notify: "Stop Elasticsearch"
 
-- name: "Template JVM options file"
+- name: "Configure permissions for data directory ({{ elasticsearch.dir.data }})"
   file:
     path: "{{ elasticsearch.dir.data }}"
     owner: "elasticsearch"
